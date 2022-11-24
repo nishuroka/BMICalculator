@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>BMI Calculator</h1>
+    <p>
+        Your Name: <input id="name" name="name" placeholder="Name" /><br />
+    </p>
+    <p>
+        Weight (kg): <input id="weight" name="weight" type="number" placeholder="weight" /><br />
+    </p>
+    <p>
+        Height (m): <input id="height" name="height" type="number" placeholder="height" /><br />
+    </p>
+
+    <p>
+
+        <button id="btn" onclick="calcBMI()">Calculate BMI</button>
+
+        <button id="btn2" onclick="clearFun()">Clear Fields</button>
+    </p>
+    <p id="result"></p>
+
+    <script>
+        function clearFun() {
+            document.getElementById('name').value = "";
+            document.getElementById('weight').value = "";
+            document.getElementById('height').value = "";
+            document.getElementById('result').innerHTML = "";
+        }
+        function calcBMI(){
+            var name= document.getElementById('name').value;
+            var weight = +document.getElementById('weight').value;
+            var height = +document.getElementById('height').value;
+
+            let data={
+                name:name,
+                weight:weight,
+                height:height
+            }
+            console.log(data);
+
+            fetch("http://localhost:3000/calc", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Accept: "application/json",
+                },
+                body: JSON.stringify(data),
+            })
+            .then((res) => res.json())
+            .then((data)=>{
+                var bmi = data.ans;
+                //console.log("Ans", data.ans)
+                if (bmi<18.5){
+                    document.getElementById('result').innerHTML = "Your BMI is "+ bmi +". You should eat a lil bit more";
+                }else if(bmi>=18.5 && bmi<24.9){
+                    document.getElementById('result').innerHTML = "Your BMI is "+ bmi+". Keep doing what you're doing";
+                }else if(bmi>=25 && bmmi<29.9){
+                    document.getElementById('result').innerHTML = "Your BMI is "+ bmi+". You should cut down on your food a lil bit";
+                }else{
+                    document.getElementById('result').innerHTML = "Your BMI is "+ bmi+". You should really do something about your appetite ASAP";
+                }
+                
+            })
+
+        }
+    </script>
+</body>
+
+</html>
