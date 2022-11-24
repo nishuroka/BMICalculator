@@ -59,7 +59,10 @@ let db = new sqlite3.Database("./bmi.db", (err) => {
 
   createTable();
   
-
+  app.get('/', (req, res)=>{
+    res.sendFile(__dirname+"/calcBMI.html")
+    
+})
 
 app.get('/admin', (req, res)=>{
     res.sendFile(__dirname+"/admin.html")
